@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.mouad.chattrad" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>MonChat Traduction</name>
+    <description>MonChat avec traduction des messages et des appels (français, anglais, espagnol, arabe)</description>
+    <author>Mouad</author>
+    <content src="index.html" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <icon src="www/icon.png" />
+    <preference name="AndroidWindowSplashScreenAnimatedIcon" value="www/icon.png" />
+    <platform name="android">
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.RECORD_AUDIO" />
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+            <uses-permission android:name="android.permission.CAMERA" />
+        </config-file>
+    </platform>
+    <allow-navigation href="https://absabefi-cell.github.io/*" />
+    <allow-navigation href="https://*.trycloudflare.com/*" />
+</widget>

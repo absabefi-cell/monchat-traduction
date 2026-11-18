@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MonChat Traduction</title>
+<style>body{margin:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0b7d5a;color:#fff;font-family:sans-serif;text-align:center;padding:20px;box-sizing:border-box}button{margin-top:20px;padding:12px 24px;border:0;border-radius:12px;background:#fff;color:#0b7d5a;font-size:16px}</style>
+</head><body>
+<h2>MonChat Traduction</h2><p id="m">Connexion au serveur...</p>
+<button id="b" style="display:none" onclick="go()">Réessayer</button>
+<script src="cordova.js"></script>
+<script>
+// MonChat Traduction : même serveur que MonChat, mais la page /trad (traduction, vocaux, photos, fichiers)
+// Mémoire de connexion de l'app (son adresse ne change jamais)
+var L=localStorage,H=new URLSearchParams(location.hash.slice(1));
+try{if(H.has('save')){L.setItem('mc_tok',H.get('save'));L.setItem('mc_me',H.get('me')||'')}
+if(H.has('forget')){L.removeItem('mc_tok');L.removeItem('mc_me')}}catch(e){}
+var S=["https://api.github.com/repos/absabefi-cell/monchat/contents/serveur.json",
+"https://raw.githubusercontent.com/absabefi-cell/monchat/main/serveur.json",
+"https://absabefi-cell.github.io/monchat/serveur.json"];
+function lire(i){
+ if(i>=S.length)return Promise.reject();
+ return fetch(S[i]+"?t="+Date.now(),{cache:"no-store",headers:i==0?{"Accept":"application/vnd.github.raw"}:{}})
+ .then(function(r){return r.text()})
+ .then(function(t){var u=t.match(/https:\/\/[a-z0-9-]+\.trycloudflare\.com/);if(!u)throw 0;return u[0]})
+ .catch(function(){return lire(i+1)});
+}
+function go(){
+ m.textContent="Connexion au serveur...";b.style.display="none";
+ lire(0).then(function(u){var h='#app='+encodeURIComponent(location.href.split('#')[0]);try{if(L.getItem('mc_tok'))h+='&k='+encodeURIComponent(L.getItem('mc_tok'))+'&me='+encodeURIComponent(L.getItem('mc_me')||'')}catch(e){}location.replace(u+"/trad/"+h)}).catch(function(){
+ m.textContent="Serveur introuvable. Vérifie que le téléphone serveur est allumé.";b.style.display="inline-block"});
+}
+var parti=false;
+function demarrer(){if(parti)return;parti=true;
+ if(window.CacheClear){CacheClear(go,go)}else{go()}}
+document.addEventListener("deviceready",demarrer);
+setTimeout(demarrer,3000);
+</script></body></html>

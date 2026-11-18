@@ -1,0 +1,18 @@
+{
+  "name": "com.mouad.chattrad",
+  "displayName": "MonChat Traduction",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "cordova-android": "^15.1.0",
+    "cordova-plugin-cache-clear": "^1.3.8",
+    "cordova-plugin-monchat-natif": "file:../plugin"
+  },
+  "cordova": {
+    "platforms": ["android"],
+    "plugins": {
+      "cordova-plugin-cache-clear": {},
+      "cordova-plugin-monchat-natif": {}
+    }
+  }
+}

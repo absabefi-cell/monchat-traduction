@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="cordova-plugin-monchat-natif" version="1.0.0">
+  <name>MonChatNatif</name>
+  <description>Écoute (Vosk), traduction (ML Kit) et voix (Android) pour MonChat Traduction, sans serveur.</description>
+  <platform name="android">
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="MonChatNatif">
+        <param name="android-package" value="com.mouad.chattrad.natif.MonChatNatif" />
+        <param name="onload" value="true" />
+      </feature>
+    </config-file>
+    <config-file target="AndroidManifest.xml" parent="/manifest">
+      <uses-permission android:name="android.permission.RECORD_AUDIO" />
+      <uses-permission android:name="android.permission.INTERNET" />
+      <queries>
+        <intent><action android:name="android.intent.action.TTS_SERVICE" /></intent>
+      </queries>
+    </config-file>
+    <source-file src="src/android/MonChatNatif.java" target-dir="src/com/mouad/chattrad/natif" />
+    <framework src="com.alphacephei:vosk-android:0.3.47@aar" />
+    <framework src="net.java.dev.jna:jna:5.13.0@aar" />
+    <framework src="com.google.mlkit:translate:17.0.3" />
+    <framework src="com.google.mlkit:language-id:17.0.6" />
+  </platform>
+</plugin>
