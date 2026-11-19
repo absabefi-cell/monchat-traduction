@@ -1,0 +1,37 @@
+name: Conversion Darija INT8
+
+on:
+  workflow_dispatch:
+
+jobs:
+  conversion:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Installation des outils
+        run: |
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install "transformers<5" ctranslate2 sentencepiece huggingface_hub
+
+      - name: Telechargement du modele
+        run: |
+          python -c "from huggingface_hub import snapshot_download; snapshot_download('Farid59/nllb-darija-fr_eng', local_dir='source')"
+
+      - name: Conversion INT8
+        run: |
+          ct2-transformers-converter \
+            --model source \
+            --output_dir darija-int8 \
+            --quantization int8 \
+            --copy_files sentencepiece.bpe.model
+
+      - name: Export du modele
+        uses: actions/upload-artifact@v4
+        with:
+          name: darija-int8
+          path: darija-int8/
+          compression-level: 0
