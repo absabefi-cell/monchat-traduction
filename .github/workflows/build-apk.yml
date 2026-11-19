@@ -1,0 +1,45 @@
+name: MonChat Traduction APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Installer SDK Android
+        run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
+
+      - name: Installer Cordova
+        run: npm install -g cordova@12
+
+      - name: Préparer application
+        working-directory: app
+        run: |
+          npm install
+          cordova prepare android
+
+      - name: Générer APK
+        working-directory: app
+        run: cordova build android --debug
+
+      - name: Télécharger APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: MonChat-Traduction
+          path: app/platforms/android/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error

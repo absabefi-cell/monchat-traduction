@@ -1,0 +1,11 @@
+{
+  "name": "cordova-plugin-monchat-natif",
+  "version": "1.0.0",
+  "description": "Plugin natif MonChat Traduction",
+  "cordova": {
+    "id": "cordova-plugin-monchat-natif",
+    "platforms": ["android"]
+  },
+  "keywords": ["cordova", "android"],
+  "private": true
+}
